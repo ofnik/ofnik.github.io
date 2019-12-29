@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <p>Attrape un arc-en-ciel et un poème 2</p>
+    <p>Attrape un arc-en-ciel et un poème 3</p>
 <img src="" id="rainbow" width="480" />
 <script>
     console.log('about to fetch a rainbow');
@@ -29,7 +29,8 @@
     console.log('about to fetch a poem');
     
     catchPoem()
-    .then(response => {
+    .then(poem => {
+        document.getElementById('poem').innerText = poem;
         console.log('yay');
     })
     .catch(error => {
@@ -38,8 +39,7 @@
         });
     async function catchPoem() {
         const response = await fetch('poem.txt');
-        const blob = await response.blob();
-        document.getElementById('poem').innerText = poem;
+        return await response.blob();
     }
 </script>
 </body>
