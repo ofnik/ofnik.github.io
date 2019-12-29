@@ -39,7 +39,7 @@
     async function catchPoem() {
         const response = await fetch('poem.txt');
         const blob = await response.blob();
-        document.getElementBYId('poem').innerText = URL.createObjectURL(blob);
+        document.getElementById('poem').innerText = URL.createObjectURL(blob);
     }
 </script>
 </body>
