@@ -8,6 +8,7 @@
   </head>
   <body>
     <h1>Fetch Beatles now</h1>
+    <div id="beatlezone"></div>
 
     <script>
       console.log('about to fetch some Beatles');
@@ -32,7 +33,7 @@
           const img = document.createElement('img');
           img.src = URL.createObjectURL(blob);
           img.width = '250';
-          document.body.append(img);
+          document.beatlezone.append(img);
         }
       }
     </script>
