@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <p>Attrape un arc-en-ciel et un poème 4</p>
+    <p>Attrape un arc-en-ciel et un poème 5</p>
 <img src="" id="rainbow" width="480" />
 <script>
     console.log('about to fetch a rainbow');
@@ -29,9 +29,9 @@
     console.log('about to fetch a poem');
     
     catchPoem()
-    .then(poem => {
-        document.getElementById('poem').innerText = poem;
-        console.log('yay');
+        .then(poem => {
+            document.getElementById('poem').innerText = poem;
+            console.log('yay');
     })
     .catch(error => {
             console.log('error!');
