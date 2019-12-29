@@ -37,9 +37,9 @@
             console.error(error);
         });
     async function catchPoem() {
-        const reponse = await fetch('poem.txt');
-        const blub = await reponse.blub();
-        document.getElementBYId('poem').innerText = URL.createObjectURL(blub);
+        const response = await fetch('poem.txt');
+        const blob = await reponse.blob();
+        document.getElementBYId('poem').innerText = URL.createObjectURL(blob);
     }
 </script>
 </body>
