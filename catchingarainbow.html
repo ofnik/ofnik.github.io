@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <p>Ben y a toujours pas mal de boulot</p>
+    <p>Ben y a encore et toujours pas mal de boulot</p>
 <img src="" id="rainbow" width="480" />
 <script>
     console.log('about to fetch a rainbow');
@@ -23,7 +23,7 @@
     async function catchRainbow() {
         const response = await fetch('rainbow.jpg');
         const blob = await response.blob();
-        document.getElementById('rainbow').src = URLcreateObjectURL(blob);
+        document.getElementById('rainbow').src = URL.createObjectURL(blob);
     }
 </script>
 </body>
