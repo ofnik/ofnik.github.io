@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <p>Attrape un arc-en-ciel et un poème</p>
+    <p>Attrape un arc-en-ciel et un poème 2</p>
 <img src="" id="rainbow" width="480" />
 <script>
     console.log('about to fetch a rainbow');
@@ -39,7 +39,7 @@
     async function catchPoem() {
         const response = await fetch('poem.txt');
         const blob = await response.blob();
-        document.getElementById('poem').innerText = URL.createObjectURL(blob);
+        document.getElementById('poem').innerText = poem;
     }
 </script>
 </body>
