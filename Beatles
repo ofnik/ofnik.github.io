@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Coding Train: Data/APIs 1</title>
+  </head>
+  <body>
+    <h1>Fetch Beatles</h1>
+
+    <script>
+      console.log('about to fetch some Beatles');
+      const filenames = [
+        'John.png',
+        'Paul.png'
+        'George.png'
+        'Ringo.png'
+      ];
+      catchBeatles(filenames)
+        .then(response => {
+          console.log('yay');
+        })
+        .catch(error => {
+          console.log('error!');
+          console.error(error);
+        });
+      async function catchBeatles(filenames) {
+        for (let filename of filenames) {
+          const response = await fetch(filename);
+          const blob = await response.blob();
+          const img = document.createElement('img');
+          img.src = URL.createObjectURL(blob);
+          img.width = '250';
+          document.body.append(img);
+        }
+      }
+    </script>
+  </body>
+</html>
