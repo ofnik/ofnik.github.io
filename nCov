@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Décès dus au coronavirus de Wuhan</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+</head>
+<body>
+    <canvas id="myChart" width="200" height="100"></canvas>
+    
+    <script>
+       
+       chartIt();
+
+       async function chartIt() {
+        const data = await getData();
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+    type: 'line',
+    options: {
+               scales: {
+                    yAxes: [{
+                        stacked: true,
+                    }]
+                },
+                legendCallback: function(chart) {
+                    // Return the HTML string here.
+                    return '<p>Hello, World!</p>'
+                }
+            },
+    data: {
+        labels: data.year.slice(1),
+        datasets: [{
+            label: data.chinaDeaths[0],
+            data: data.chinaDeaths.slice(1),
+            backgroundColor: [
+                'rgba(11, 156, 49, 0.4)',
+            ],
+            borderColor: [
+                'rgba(11, 156, 49, 1)',
+            ],
+            borderWidth: 1,
+            fill: true,
+            pointBackgroundColor: 'rgba(11, 156, 49, 0.4)',
+            pointBorderColor: 'rgba(11, 156, 49, 1)'
+        },
+        {
+            label: data.outChinaDeaths[0], // ce qui ne va pas, c'est que le label dit "Morts hors de Chine" alors que la data est celle du nombre total de morts
+            data: data.outChinaDeaths.slice(1),
+            backgroundColor: [
+                'rgba(36, 81, 158, 0.4)',
+            ],
+            borderColor: [
+                'rgba(36, 81, 158, 1)',
+            ],
+            borderWidth: 1,
+            fill: true,
+            pointBackgroundColor: 'rgba(36, 81, 158, 0.4)',
+            pointBorderColor: 'rgba(36, 81, 158, 1)'
+        }]
+    }
+});
+}
+    
+    async function getData() {
+        const year = [];
+        const chinaDeaths = [];
+        const outChinaDeaths = [];
+        const totalDeaths = [];
+        const response = await fetch('nCovDeaths.csv');
+        const data = await response.text();
+        
+        const table = data.split('\n');
+        table.forEach(row => {
+            const columns = row.split(',');
+            const one = columns[0];
+            year.push(one);
+            const two = columns[1];
+            chinaDeaths.push(two);
+            const three = columns[2];
+            outChinaDeaths.push(three);
+            const four = parseInt(columns[1],10) + parseInt(columns[2],10);
+            totalDeaths.push(four);
+            console.log(one, two, three, four);
+    });
+    return {year, chinaDeaths, outChinaDeaths, totalDeaths};
+    }
+    
+    </script>
+</body>
+</html>
