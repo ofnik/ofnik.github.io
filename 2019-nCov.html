@@ -47,7 +47,7 @@
             pointBorderColor: 'rgba(11, 156, 49, 1)'
         },
         {
-            label: data.outChinaDeaths[0], // ce qui ne va pas, c'est que le label dit "Morts hors de Chine" alors que la data est celle du nombre total de morts
+            label: data.outChinaDeaths[0],
             data: data.outChinaDeaths.slice(1),
             backgroundColor: [
                 'rgba(36, 81, 158, 0.4)',
@@ -69,7 +69,7 @@
         const chinaDeaths = [];
         const outChinaDeaths = [];
         const totalDeaths = [];
-        const response = await fetch('nCovDeaths.csv');
+        const response = await fetch('https://www.dropbox.com/s/qgei2o411dri24l/nCovDeaths.csv?dl=0');
         const data = await response.text();
         
         const table = data.split('\n');
