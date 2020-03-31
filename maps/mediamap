@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+   crossorigin=""></script>
+    <style>
+    #myMediaMap { height: 800px; }
+
+    </style>
+
+
+    <title>Document</title>
+</head>
+<body>
+
+    <h1>English-speaking media</h1>
+
+    <div id="myMediaMap"></div>
+    
+    <script>
+    
+    // Making a map and tiles
+    const mymap = L.map('myMediaMap').setView([46.603354, 1.8883335], 3);
+    
+    const attribution = '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors';
+
+    const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+
+    const tiles = L.tileLayer(tileUrl, { attribution });
+
+    tiles.addTo(mymap);
+    
+    //Creating a stupid text
+    const stupidText = "I am a dumb marker";
+
+    // Making a marker with a custom icon
+    const pinIcon = L.icon({
+    iconUrl: 'pin.png',
+    iconSize: [50, 32],
+    iconAnchor: [25, 16]
+});
+    // let marker = L.marker([0, 0], { icon: pinIcon}).addTo(mymap)
+    // .bindPopup(stupidText);
+
+    
+
+    
+    // const api_url = 'https://api.wheretheiss.at/v1/satellites/25544';
+    
+    async function getData() {
+        const response = await fetch('medias.csv');
+        const data = await response.text();
+        const { Latitude, Longitude } = data;
+        const table = data.split('\n').slice(1);
+        table.forEach(row => {
+            const columns = row.split(',');
+            const country = columns[0];
+            const latitude = columns[1];
+            const longitude = columns[2];
+            const name = columns[3];
+            const url = columns[4];
+            const note = columns[5];
+            let popupText = '<b>' + country + '</b><br /><br />' + '<a href="' + url + '">' + name + '</a>' + ' [' + note + ']';
+            let i = 6;
+            while (i < columns.length) {
+                if (columns[i] === "") {
+                    break;
+                }
+                popupText = popupText + '<br /> <a href="' + columns[i+1] + '">' + columns[i] + '</a>' + ' [' + columns[i+2] + ']';
+                i = i+3;
+            };
+            L.marker([latitude, longitude]).addTo(mymap)
+            .bindPopup(popupText);
+    });
+
+    }
+    
+    getData();
+
+    </script>
+</body>
+</html>
