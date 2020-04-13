@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
     integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
@@ -10,6 +10,7 @@
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
    crossorigin=""></script>
+    
     <style>
     body {
         padding: 0;
@@ -19,31 +20,47 @@
     height: 100%;
     width: 100vw;
     }
-    
+
     </style>
 
 
     <title>English-speaking media Map</title>
 </head>
 <body>
-    
+
+    <!-- <h1>English-speaking media</h1> -->
+
     <div id="myMediaMap"></div>
     
     <script>
     
     // Making a map and tiles
-    const mymap = L.map('myMediaMap').setView([46.603354, 1.8883335], 3);
     
-    const attribution = '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors';
+    const blackandwhite = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}{r}.{ext}', {
+	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	subdomains: 'abcd',
+	minZoom: 0,
+	maxZoom: 20,
+	ext: 'png'
+    }),
+    paleblue = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+	subdomains: 'abcd',
+	maxZoom: 19
+    });
 
-    const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    const mymap = L.map('myMediaMap', {
+        center: [46.603354, 1.8883335],
+        zoom: 3,
+        layers: [blackandwhite, paleblue]
+    });
 
-    const tiles = L.tileLayer(tileUrl, { attribution });
-
-    tiles.addTo(mymap);
+    const baseMaps = {
+    "Black & White": blackandwhite,
+    "Pale Blue": paleblue
+    };
     
-    //Creating a stupid text
-    const stupidText = "I am a dumb marker";
+    L.control.layers(baseMaps).addTo(mymap);
 
     // Making a marker with a custom icon
     const pinIcon = L.icon({
@@ -51,13 +68,6 @@
     iconSize: [50, 32],
     iconAnchor: [25, 16]
 });
-    // let marker = L.marker([0, 0], { icon: pinIcon}).addTo(mymap)
-    // .bindPopup(stupidText);
-
-    
-
-    
-    // const api_url = 'https://api.wheretheiss.at/v1/satellites/25544';
     
     async function getData() {
         const response = await fetch('medias.csv');
@@ -72,13 +82,13 @@
             const name = columns[3];
             const url = columns[4];
             const note = columns[5];
-            let popupText = '<b>' + country + '</b><br /><br />' + '<a target="_blank" href="' + url + '">' + name + '</a>' + ' [' + note + ']';
+            let popupText = '<b>' + country + '</b><br /><br />' + '<a href="' + url + '">' + name + '</a>' + ' [' + note + ']';
             let i = 6;
             while (i < columns.length) {
                 if (columns[i] === "") {
                     break;
                 }
-                popupText = popupText + '<br /> <a target="_blank" href="' + columns[i+1] + '">' + columns[i] + '</a>' + ' [' + columns[i+2] + ']';
+                popupText = popupText + '<br /> <a href="' + columns[i+1] + '">' + columns[i] + '</a>' + ' [' + columns[i+2] + ']';
                 i = i+3;
             };
             L.marker([latitude, longitude]).addTo(mymap)
