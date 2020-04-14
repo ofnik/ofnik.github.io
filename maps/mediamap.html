@@ -82,13 +82,13 @@
             const name = columns[3];
             const url = columns[4];
             const note = columns[5];
-            let popupText = '<b>' + country + '</b><br /><br />' + '<a href="' + url + '">' + name + '</a>' + ' [' + note + ']';
+            let popupText = '<b>' + country + '</b><br /><br />' + '<a target="_blank" href="' + url + '">' + name + '</a>' + ' [' + note + ']';
             let i = 6;
             while (i < columns.length) {
                 if (columns[i] === "") {
                     break;
                 }
-                popupText = popupText + '<br /> <a href="' + columns[i+1] + '">' + columns[i] + '</a>' + ' [' + columns[i+2] + ']';
+                popupText = popupText + '<br /> <a target="_blank" href="' + columns[i+1] + '">' + columns[i] + '</a>' + ' [' + columns[i+2] + ']';
                 i = i+3;
             };
             L.marker([latitude, longitude]).addTo(mymap)
