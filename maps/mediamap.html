@@ -64,12 +64,17 @@
 
     // Making a marker with a custom icon
     const pinIcon = L.icon({
-    iconUrl: 'pin.png',
-    iconSize: [50, 32],
-    iconAnchor: [25, 16]
-});
+    iconUrl: 'asterisco.png',
+    iconSize: [22, 25],
+    });
+
+    const pinIconLocal = L.icon({
+    iconUrl: 'asteriscol.png',
+    iconSize: [22, 25],
+    });
     
     async function getData() {
+        // const response = await fetch('medias.csv');
         const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTTBnfLv5WM_aPcW6U9zyprtdAfvrBrb0RKrW4-23oXIAaIlsuXAJzg54-nhLr4LW3FvZI_kZL4Tte_/pub?gid=0&single=true&output=csv');
         const data = await response.text();
         const { Latitude, Longitude } = data;
@@ -77,22 +82,37 @@
         table.forEach(row => {
             const columns = row.split(',');
             const country = columns[0];
-            const latitude = columns[1];
-            const longitude = columns[2];
-            const name = columns[3];
-            const url = columns[4];
-            const note = columns[5];
-            let popupText = '<b>' + country + '</b><br /><br />' + '<a target="_blank" href="' + url + '">' + name + '</a>' + ' [' + note + ']';
-            let i = 6;
-            while (i < columns.length) {
-                if (columns[i] === "") {
-                    break;
-                }
-                popupText = popupText + '<br /> <a target="_blank" href="' + columns[i+1] + '">' + columns[i] + '</a>' + ' [' + columns[i+2] + ']';
-                i = i+3;
+            const local = columns[1];
+            const latitude = columns[2];
+            const longitude = columns[3];
+            const name = columns[4];
+            const url = columns[5];
+            const note = columns[6];
+            if (local == 0) {
+                let popupText = '<b>' + country + '</b><br /><br />' + '<a target="_blank" href="' + url + '">' + name + '</a>' + ' [' + note + ']';
+                let i = 7;
+                while (i < columns.length) {
+                    if (columns[i] === "") {
+                        break;
+                    }
+                    popupText = popupText + '<br /> <a target="_blank" href="' + columns[i+1] + '">' + columns[i] + '</a>' + ' [' + columns[i+2] + ']';
+                    i = i+3;
+                };
+                L.marker([latitude, longitude], {icon: pinIcon}).addTo(mymap)
+                .bindPopup(popupText);
+            } else {
+                let popupText = '<b>' + country + '</b><br /><br />' + '<a target="_blank" href="' + url + '">' + name + '</a>' + ' [' + note + ']';
+                let i = 7;
+                while (i < columns.length) {
+                    if (columns[i] === "") {
+                        break;
+                    }
+                    popupText = popupText + '<br /> <a target="_blank" href="' + columns[i+1] + '">' + columns[i] + '</a>' + ' [' + columns[i+2] + ']';
+                    i = i+3;
+                };
+                L.marker([latitude, longitude], {icon: pinIconLocal}).addTo(mymap)
+                .bindPopup(popupText);
             };
-            L.marker([latitude, longitude]).addTo(mymap)
-            .bindPopup(popupText);
     });
 
     }
