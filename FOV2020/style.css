@@ -1,0 +1,23 @@
+html {
+      font-family: Verdana;
+    }      
+    .flotte {
+      /* float:left; */
+      margin-right: 50px;
+      margin-bottom: 20px;
+    }  
+    @media (min-width: 1000px) {
+        .flotte {
+            float: left;
+        }
+    }    
+    div {
+     padding-left: 60px;
+     padding-top: 20px; 
+    }
+    ul > li {
+      line-height: 2;      
+    }
+    a { text-decoration:none;
+        color: #4800FF;
+    }
