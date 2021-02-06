@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 </head>
 <body>
-    <p>Test version 1.4</p>
+    <p>Test version 1.5</p>
     
     <canvas id="chart" class="chartjs" width="500" height="200" style="display: block; height: 250px; width: 550px;"></canvas>
 
@@ -51,6 +51,8 @@
         table.forEach(row => {
             const columns = row.split(',');
             const date = columns[1];
+            date = date.split('-');
+            date = date[2] + "/" + date[1] + "/" + date[0];
             xlabels.push(date);
             const doses = columns[2];
             ytemps.push(doses);
