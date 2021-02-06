@@ -2,9 +2,7 @@
 <head>
   <meta charset="utf-8">
   <style>
-    .bar1 { fill: #dd8787; }
-    .bar2 { fill: deepskyblue; }
-    .bar3 { fill: steelblue; }
+    .bar { fill: #dd8787; }
     .bar:hover {fill: orange; }
     .axis--x path { display: none; }
     .line {
@@ -94,13 +92,6 @@
     .attr("height", function(d) { return height - yScale(d[2]); })
     .attr("class", function(d) {
       var s = "bar ";
-      if (d[1] < 400) {
-        return s + "bar1";
-      } else if (d[1] < 800) {
-        return s + "bar2";
-      } else {
-        return s + "bar3";
-      }
     });
 
   // labels on the bar chart
