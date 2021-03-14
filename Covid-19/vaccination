@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph test</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <p>Test version 1.9</p>
+    
+    <canvas id="chart" class="chartjs" width="200" height="auto"></canvas>
+    
+    <script>
+       
+    const xlabels = [];
+    const ytemps = [];
+
+    chartIt();
+
+    // fonction permettant d'afficher les nombres avec un séparateur de milliers
+    function numStr(a, b) {
+        a = '' + a;
+        b = b || ' ';
+        var c = '',
+            d = 0;
+        while (a.match(/^0[0-9]/)) {
+            a = a.substr(1);
+        }
+        for (var i = a.length-1; i >= 0; i--) {
+            c = (d != 0 && d % 3 == 0) ? a[i] + b + c : a[i] + c;
+            d++;
+        }
+        return c;
+    }
+
+    async function chartIt() {
+        await getData();
+        const ctx = document.getElementById('chart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: xlabels,
+                datasets: [{
+                    label: 'Nombre quotidien de nouvelles personnes ayant reçu au moins une dose de vaccin',
+                    data: ytemps,
+                    backgroundColor: '#99CCFF',                    
+                    borderWidth: 1
+                }],                
+            },            
+            options: {
+                tooltips: {
+                    callbacks: {                        
+                        label: function(tooltipItem, data) {
+                            return numStr(data['datasets'][0]['data'][tooltipItem['index']]);
+                        }
+                    }
+                },
+            }
+        });
+    }
+    
+    async function getData() {
+        const response = await fetch('https://www.data.gouv.fr/fr/datasets/r/efe23314-67c4-45d3-89a2-3faef82fae90');
+        const data = await response.text();
+        
+        const table = data.trim('\n').split('\n').slice(1);
+        table.forEach(row => {
+            const columns = row.split(';');
+            let date = columns[1];
+            date = date.split('-');
+            date = date[2] + "/" + date[1] + "/" + date[0];
+            xlabels.push(date);
+            const doses = columns[2];
+            ytemps.push(doses);
+            console.log(date, doses);
+    });
+    }
+    
+    </script>
+</body>
+</html>
