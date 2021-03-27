@@ -9,12 +9,15 @@
     <title>Document</title>
 </head>
 <body>
-    <canvas id="chart" class="chartjs" width="200" height="auto"></canvas>
+    <p style="font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif; font-size: 12 px">Nombre total de personnes ayant reçu une ou deux doses de vaccin contre le Covid-19</p>
+    
+    <canvas id="chart" class="chartjs"></canvas>
     
     <script>
        
     const xlabels = [];
     const ytemps = [];
+    const yttwo = [];
 
     chartIt();
 
@@ -42,19 +45,58 @@
             data: {
                 labels: xlabels,
                 datasets: [{
-                    label: 'Nombre total de personnes ayant reçu au moins une dose de vaccin',
+                    label: 'une seule dose',
                     data: ytemps,
                     backgroundColor: '#99CCFF',                    
-                    borderWidth: 1
-                }],                
+                }, {
+                    label: 'deux doses',
+                    data: yttwo,
+                    backgroundColor: '#077bf0',                    
+                }
+                ],                
             },            
             options: {
+                scales: {
+                    xAxes: [{
+                        stacked: true,
+                        gridLines: {
+                            display: false,
+                        }
+                    }],
+                    yAxes: [{
+                        stacked: true,
+                        ticks: {
+                            beginAtZero: true,
+                            userCallback: function(value, index, values) {
+                                value = numStr(value)
+                                return value
+                            }
+                        },
+                        type: 'linear',
+                    }]
+                },
                 tooltips: {
-                    callbacks: {                        
-                        label: function(tooltipItem, data) {
-                            return numStr(data['datasets'][0]['data'][tooltipItem['index']]);
+					mode: 'label',
+                    callbacks: {
+                        label: function(tooltipItem, data) { 
+          	                return data.datasets[tooltipItem.datasetIndex].label + " : " + numStr(tooltipItem.yLabel);
                         }
                     }
+                },
+                elements: {
+                    point: {
+                        radius: 2,
+                        pointHitRadius: 5,
+                        backgroundColor: 'black',
+                        borderColor: 'transparent'
+                    }
+                },
+                responsive: true,
+                aspectRatio: 2,
+                maintainAspectRatio: true,
+                legend: { 
+                    position: 'top', 
+                    fullWidth: false
                 },
             }
         });
@@ -71,9 +113,10 @@
             date = date.split('-');
             date = date[2] + "/" + date[1] + "/" + date[0];
             xlabels.push(date);
-            const doses = columns[4];
-            ytemps.push(doses);
-            console.log(date, doses);
+            const firstdoses = columns[4]-columns[6];
+            const seconddoses = columns[6];
+            ytemps.push(firstdoses);
+            yttwo.push(seconddoses);
     });
     }
     
