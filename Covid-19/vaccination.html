@@ -9,12 +9,15 @@
     <title>Document</title>
 </head>
 <body>
+    <p style="font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif; font-size: 12 px">Nombre de personnes par jour recevant leur première ou leur deuxième dose de vaccin</p>
+
     <canvas id="chart" class="chartjs" width="200" height="auto"></canvas>
     
     <script>
        
     const xlabels = [];
     const ytemps = [];
+    const yttwo = [];
 
     chartIt();
 
@@ -42,19 +45,45 @@
             data: {
                 labels: xlabels,
                 datasets: [{
-                    label: 'Nombre quotidien de nouvelles personnes ayant reçu au moins une dose de vaccin',
+                    label: 'première dose',
                     data: ytemps,
                     backgroundColor: '#99CCFF',                    
-                    borderWidth: 1
-                }],                
+                }, {
+                    label: 'deuxième dose',
+                    data: yttwo,
+                    backgroundColor: '#077bf0',                    
+                }
+                ],                
             },            
             options: {
+                scales: {
+                    xAxes: [{
+                        stacked: true,
+                        gridLines: {
+                            display: false,
+                        }
+                    }],
+                    yAxes: [{
+                        stacked: true,
+                        ticks: {
+                            beginAtZero: true,
+                        },
+                        type: 'linear',
+                    }]
+                },
                 tooltips: {
-                    callbacks: {                        
-                        label: function(tooltipItem, data) {
-                            return numStr(data['datasets'][0]['data'][tooltipItem['index']]);
+					mode: 'label',
+                    callbacks: {
+                        label: function(tooltipItem, data) { 
+          	                return data.datasets[tooltipItem.datasetIndex].label + ": " + numStr(tooltipItem.yLabel);
                         }
                     }
+                },
+                responsive: true,
+                maintainAspectRatio: true,
+                legend: { 
+                    position: 'top', 
+                    fullWidth: false
                 },
             }
         });
@@ -71,10 +100,11 @@
             date = date.split('-');
             date = date[2] + "/" + date[1] + "/" + date[0];
             xlabels.push(date);
-            const doses = columns[2];
-            ytemps.push(doses);
-            console.log(date, doses);
-    });
+            const firstdoses = columns[2];
+            const seconddoses = columns[3];
+            ytemps.push(firstdoses);
+            yttwo.push(seconddoses);
+        });
     }
     
     </script>
