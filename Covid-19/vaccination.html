@@ -9,9 +9,9 @@
     <title>Document</title>
 </head>
 <body>
-    <p style="font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif; font-size: 12 px">Nombre de personnes par jour recevant leur première ou leur deuxième dose de vaccin</p>
+    <p style="font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif; font-size: 12 px">Nombre de personnes par jour recevant leur première ou leur deuxième dose de vaccin contre le Covid-19</p>
 
-    <canvas id="chart" class="chartjs" width="200" height="auto"></canvas>
+    <canvas id="chart" class="chartjs"></canvas>
     
     <script>
        
@@ -67,6 +67,10 @@
                         stacked: true,
                         ticks: {
                             beginAtZero: true,
+                            userCallback: function(value, index, values) {
+                                value = numStr(value)
+                                return value
+                            }
                         },
                         type: 'linear',
                     }]
@@ -75,7 +79,7 @@
 					mode: 'label',
                     callbacks: {
                         label: function(tooltipItem, data) { 
-          	                return data.datasets[tooltipItem.datasetIndex].label + ": " + numStr(tooltipItem.yLabel);
+          	                return data.datasets[tooltipItem.datasetIndex].label + " : " + numStr(tooltipItem.yLabel);
                         }
                     }
                 },
