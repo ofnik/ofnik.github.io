@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Covid-19 | Vaccination quotidienne</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+</head>
+<body>
+    <p style="font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif; font-size: 12 px">Nombre de cas positifs</p>
+
+    <canvas id="chart" class="chartjs"></canvas>
+    
+    <script>
+       
+    const xlabels = [];
+    const totalizer = [];
+    const ycas = [];
+    const ymoyenne = [];
+
+    chartIt();
+
+    // fonction permettant d'afficher les nombres avec un séparateur de milliers
+    function numStr(a, b) {
+        a = '' + a;
+        b = b || ' ';
+        var c = '',
+            d = 0;
+        while (a.match(/^0[0-9]/)) {
+            a = a.substr(1);
+        }
+        for (var i = a.length-1; i >= 0; i--) {
+            c = (d != 0 && d % 3 == 0) ? a[i] + b + c : a[i] + c;
+            d++;
+        }
+        return c;
+    }
+
+    async function chartIt() {
+        await getData();
+        const ctx = document.getElementById('chart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: xlabels,
+                datasets: [{
+                    label: 'Cas quotidiens',
+                    data: ycas,
+                    backgroundColor: '#dd8787',
+                    order: 2                    
+                }, {
+                    label: 'Cas quotidiens (en moyenne à sept jours)',
+                    data: ymoyenne,
+                    borderColor: '#d61d00',
+                    type: 'line',
+                    fill: false,
+                    borderWidth: 2,
+                    order: 1
+                }
+                ],                
+            },            
+            options: {
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display: false,
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            userCallback: function(value, index, values) {
+                                value = numStr(value)
+                                return value
+                            }
+                        },
+                        type: 'linear',
+                    }]
+                },
+                tooltips: {
+					mode: 'label',
+                    callbacks: {
+                        label: function(tooltipItem, data) { 
+          	                return data.datasets[tooltipItem.datasetIndex].label + " : " + numStr(tooltipItem.yLabel);
+                        }
+                    }
+                },
+                elements: {
+                    point: {
+                        radius: 1,
+                        pointHitRadius: 5,
+                        borderColor: 'transparent'
+                    }
+                },
+                responsive: true,
+                maintainAspectRatio: true,
+                legend: { 
+                    position: 'top', 
+                    fullWidth: false
+                },
+            }
+        });
+    }
+    
+    async function getData() {
+        const response = await fetch('https://www.data.gouv.fr/fr/datasets/r/d3a98a30-893f-47f7-96c5-2f4bcaaa0d71');
+        const data = await response.text();
+        
+        // table = ["2020-03-02;4", "2020-03-03;15", "2020-03-04;27", "2020-03-05;43", "2020-03-06;76"]
+        // function getData() {
+        //     const data = ["2020-03-02;4", "2020-03-03;15", "2020-03-04;27", "2020-03-05;43", "2020-03-06;76"]
+        // }
+
+        const table = data.trim('\n').split('\n').slice(1);
+        table.forEach(row => {
+            const columns = row.split(',');
+            let date = columns[0];
+            console.log(date)
+            date = date.split('-');
+            if (date[0] == 2020 && date[1] < 8) {
+                const totalcas = columns[1];
+                totalizer.push(totalcas);
+                if (totalizer.length <= 1) {
+                    nvxcas = totalcas
+                }
+                else {
+                    nvxcas = totalizer[totalizer.length-1]-totalizer[totalizer.length-2]
+                }
+            }
+            else {
+                date = date[2] + "/" + date[1] + "/" + date[0];
+                xlabels.push(date);
+                const totalcas = columns[1];
+                totalizer.push(totalcas);
+                // console.log(totalizer)
+                if (totalizer.length <= 1) {
+                    nvxcas = totalcas
+                }
+                else {
+                    nvxcas = totalizer[totalizer.length-1]-totalizer[totalizer.length-2]
+                }
+                ycas.push(nvxcas);
+                ymoyenne.push(Math.round((totalizer[totalizer.length-1]-totalizer[totalizer.length-8])/7));
+            }
+            
+        });
+    }
+    
+    </script>
+</body>
+</html>
