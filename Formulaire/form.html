@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+    
+    </style>
+    <title>Formulaire</title>
+</head>
+<body>
+    <p>Entrer le texte à mettre en forme</p>
+    <p><label for="fraz">Texte </label>
+    <input id="fraz" /></p> 
+    <button id="submit">Envoyer</button>
+    </p>
+    
+    <script>
+        const button = document.getElementById('submit');
+        button.addEventListener('click', async event => {
+            const fraz = document.getElementById('fraz').value;
+            const options = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(fraz)
+                };
+            const response = await fetch('/api', options);
+            const json = await response.json();
+                console.log(fraz);
+                });
+        
+        
+    </script>
+    
+</body>
+</html>
