@@ -27,8 +27,6 @@
             $("#copieur").click(function() {
                 const y = $("#output").text().split(' ');
                 const joined = arrayRemove(y,'').join(' ');
-                console.log(y);
-                console.log(joined);
                 navigator.clipboard.writeText(joined);
             });
         });
