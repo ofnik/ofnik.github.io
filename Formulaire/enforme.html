@@ -16,24 +16,18 @@
             });
         });
 
-        function myFunction() {
-            /* Get the text field */
-            var copyText = document.getElementById("output");
-
-            // /* Select the text field */
-            // copyText.select();
-            // copyText.setSelectionRange(0, 99999); /* For mobile devices */
-
-            /* Copy the text inside the text field */
-            navigator.clipboard.writeText(copyText.value);
-
-            /* Alert the copied text */
-            alert("Copied the text: " + copyText.value);
-        };
+        $(document).ready(function() {
+            $("#copieur").click(function() {
+                var y = $("#output").text();
+                console.log(y);
+                navigator.clipboard.writeText(y);
+            });
+        });
+      
     </script>
       
     <style>
-        #GFG {
+        #cadre {
             width: 300px;
             padding: 0 0 50px 0;
             height: 50px;    
@@ -42,7 +36,7 @@
 </head>
    
 <body>
-    <div id="GFG">
+    <div id="cadre">
         <form action="#">
             Texte à mettre en forme : <input type="text" 
                 style="margin: 10px 0 10px 0;" name="Name">
@@ -53,6 +47,7 @@
     </div>
    
     <div id="output"></div>
+    <button id="copieur" style="margin: 10px 0 10px 0;">Copy text</button>
 </body>
   
 </html>
