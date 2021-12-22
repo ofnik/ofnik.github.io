@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  
+<head>
+    <script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js">
+    </script>
+      
+    <script>
+        $(document).ready(function() {
+            $("#convertisseur").click(function() {
+                var x = $("form").serializeArray();
+                $.each(x, function(i, field) {
+                    $("#output").append(field.value + " ");
+                });
+            });
+        });
+
+        function myFunction() {
+            /* Get the text field */
+            var copyText = document.getElementById("output");
+
+            // /* Select the text field */
+            // copyText.select();
+            // copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+            /* Copy the text inside the text field */
+            navigator.clipboard.writeText(copyText.value);
+
+            /* Alert the copied text */
+            alert("Copied the text: " + copyText.value);
+        };
+    </script>
+      
+    <style>
+        #GFG {
+            width: 300px;
+            padding: 0 0 50px 0;
+            height: 50px;    
+        }
+    </style>
+</head>
+   
+<body>
+    <div id="GFG">
+        <form action="#">
+            Texte à mettre en forme : <input type="text" 
+                style="margin: 10px 0 10px 0;" name="Name">
+            <br>
+        </form>
+   
+        <button id="convertisseur">Envoyer</button>
+    </div>
+   
+    <div id="output"></div>
+</body>
+  
+</html>
