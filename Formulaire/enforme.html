@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
-  
+
 <head>
     <script src=
 "https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js">
     </script>
       
     <script>
+
         $(document).ready(function() {
             $("#convertisseur").click(function() {
                 var x = $("form").serializeArray();
@@ -16,27 +17,35 @@
             });
         });
 
+        function arrayRemove(arr, value) {
+            return arr.filter(function(ele){
+                return ele != value; 
+            });
+        };
+
         $(document).ready(function() {
             $("#copieur").click(function() {
-                var y = $("#output").text();
+                const y = $("#output").text().split(' ');
+                const joined = arrayRemove(y,'').join(' ');
                 console.log(y);
-                navigator.clipboard.writeText(y);
+                console.log(joined);
+                navigator.clipboard.writeText(joined);
             });
         });
-      
+        
     </script>
       
     <style>
-        #cadre {
+        #GFG {
             width: 300px;
             padding: 0 0 50px 0;
-            height: 50px;    
+            height: 50px;
         }
     </style>
 </head>
    
 <body>
-    <div id="cadre">
+    <div id="GFG">
         <form action="#">
             Texte à mettre en forme : <input type="text" 
                 style="margin: 10px 0 10px 0;" name="Name">
@@ -48,6 +57,7 @@
    
     <div id="output"></div>
     <button id="copieur" style="margin: 10px 0 10px 0;">Copier le texte</button>
+
 </body>
-  
+
 </html>
