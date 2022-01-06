@@ -32,11 +32,12 @@
             });
         });
         
-        $(document).ready(function() {
-            $("#effaceur").click(function() {
-                document.getElementById("#output").value = 'Pouet';
-            });
-        });
+        var input = document.querySelector("#effacer");
+        var textarea = document.querySelector("#output");
+        input.addEventListener('click', function () {
+            textarea.value = '';
+        }, false);
+        
         
     </script>
       
@@ -52,7 +53,7 @@
 <body>
     <div id="GFG">
         <form action="#">
-            7 - Texte à mettre en forme : <input type="text" 
+            9 - Texte à mettre en forme : <input type="text" 
                 onfocus="this.value=''" style="margin: 10px 0 10px 0;" name="Name">
             <br>
         </form>
@@ -62,7 +63,7 @@
    
     <div id="output"></div>
     <button id="copieur" style="margin: 10px 0 10px 0;">Copier le texte</button>
-    <button id="effaceur" style="margin: 10px 0 10px 0;">Effacer</button>
+    <input type="button" value="Effacer" id="effaceur" style="margin: 10px 0 10px 0;">
 
 </body>
 
