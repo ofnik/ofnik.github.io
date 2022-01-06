@@ -32,6 +32,12 @@
             });
         });
         
+        $(document).ready(function() {
+            $("#effaceur").click(function() {
+                document.getElementById("#output").value = "";
+            });
+        });
+        
     </script>
       
     <style>
@@ -56,6 +62,7 @@
    
     <div id="output"></div>
     <button id="copieur" style="margin: 10px 0 10px 0;">Copier le texte</button>
+    <button id="effaceur" style="margin: 10px 0 10px 0;">Effacer</button>
 
 </body>
 
