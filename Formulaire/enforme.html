@@ -44,7 +44,7 @@
     </script>
       
     <style>
-        #bouton {
+        #style1 {
             width: 500px;
             padding: 0 0 50px 0;
             height: 50px;
@@ -53,19 +53,22 @@
 </head>
    
 <body>
-    <div id="bouton">
+    <div id="style1">
         <form action="#">
-            Texte à mettre en forme : <input type="text" 
-                onfocus="this.value=''" style="margin: 10px 0 10px 0;" name="Name">
-            <br>
+            <p>Texte à mettre en forme</p>
+            <textarea rows="5" cols="40"
+                onfocus="this.value=''" style="margin: 2px 0 10px 0;" name="Name">
+            </textarea>
+            <br />
         </form>
+        
    
-        <button id="convertisseur">Envoyer</button>
+        <button id="convertisseur" style="margin: 0px 0 50px 0;">Envoyer</button>
     </div>
    
-    <div id="output" type="text" ></div>
-    <button id="copieur" style="margin: 10px 0 10px 0;">Copier le texte</button>
-    <input type="button" value="Effacer" id="effaceur" style="margin: 10px 0 10px 0;">
+    <div id="output" type="text" style="margin: 80px 0 10px 0;"></div>
+    <button id="copieur" style="margin: 50px 10px 10px 0;">Copier le texte</button>
+    <input type="button" value="Effacer" id="effaceur" style="margin: 50px 0 10px 0;">
 
 </body>
 
