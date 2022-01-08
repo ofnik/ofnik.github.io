@@ -13,7 +13,7 @@
             $("#convertisseur").click(function() {
                 var x = $("form").serializeArray();
                 $.each(x, function(i, field) {
-                    $("#output").append(field.value + " ");
+                    $("#output").empty().append(field.value + " ");
                 });
             });
         });
@@ -31,18 +31,20 @@
                 navigator.clipboard.writeText(joined);
             });
         });
-        
-        var input = document.querySelector("#effacer");
-        var textarea = document.querySelector("#output");
-        input.addEventListener('click', function () {
-            textarea.value = '';
-        }, false);
-        
+              
+        $(document).ready(function() {
+            $("#effaceur").click(function() {
+                $('#output').empty();
+            });
+        });
+
+
+ 
         
     </script>
       
     <style>
-        #GFG {
+        #bouton {
             width: 500px;
             padding: 0 0 50px 0;
             height: 50px;
@@ -51,9 +53,9 @@
 </head>
    
 <body>
-    <div id="GFG">
+    <div id="bouton">
         <form action="#">
-            9 - Texte à mettre en forme : <input type="text" 
+            Texte à mettre en forme : <input type="text" 
                 onfocus="this.value=''" style="margin: 10px 0 10px 0;" name="Name">
             <br>
         </form>
@@ -61,7 +63,7 @@
         <button id="convertisseur">Envoyer</button>
     </div>
    
-    <div id="output"></div>
+    <div id="output" type="text" ></div>
     <button id="copieur" style="margin: 10px 0 10px 0;">Copier le texte</button>
     <input type="button" value="Effacer" id="effaceur" style="margin: 10px 0 10px 0;">
 
