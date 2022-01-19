@@ -27,11 +27,8 @@
         $(document).ready(function() {
             $("#copieur").click(function() {
                 const y = $("#output").text().replaceAll('\n',' ').replaceAll('\r',' ').split(' ');
-                // const z = y.split(' ');
                 const joined = arrayRemove(y,'').join(' ');
                 navigator.clipboard.writeText(joined);
-                console.log(y);
-                // console.log(z);
             });
         });
               
