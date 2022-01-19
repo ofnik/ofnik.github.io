@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Mise en forme</title>
+    <title>Copinette</title>
     <script src=
 "https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js">
     </script>
@@ -26,9 +26,12 @@
 
         $(document).ready(function() {
             $("#copieur").click(function() {
-                const y = $("#output").text().split(' ');
+                const y = $("#output").text().replaceAll('\n',' ').replaceAll('\r',' ').split(' ');
+                // const z = y.split(' ');
                 const joined = arrayRemove(y,'').join(' ');
                 navigator.clipboard.writeText(joined);
+                console.log(y);
+                // console.log(z);
             });
         });
               
