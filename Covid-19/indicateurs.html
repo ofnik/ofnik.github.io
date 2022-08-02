@@ -1,0 +1,362 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<h2 class="mt-24px lg:mt-40px">Contaminations</h2>
+<p class="mt-24px lg:mt-40px">Nombre de nouveaux cas de Covid-19 détectés chaque jour en France</p>
+
+<canvas id="chart" class="chartjs mt-24px lg:mt-40px"></canvas>
+
+<script>
+
+  const xlabels = [];
+  const totalizer = [];
+  const ycas = [];
+  const ymoyenne = [];
+  let newdata = [];
+
+  chartIt();
+
+  // fonction permettant d'afficher les nombres avec un séparateur de milliers
+  function numStr(a, b) {
+    a = '' + a;
+    b = b || ' ';
+    var c = '',
+      d = 0;
+    while (a.match(/^0[0-9]/)) {
+      a = a.substr(1);
+    }
+    for (var i = a.length - 1; i >= 0; i--) {
+      c = (d != 0 && d % 3 == 0) ? a[i] + b + c : a[i] + c;
+      d++;
+    }
+    return c;
+  }
+
+  async function chartIt() {
+    await getData();
+    const ctx = document.getElementById('chart').getContext('2d');
+    const myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: xlabels,
+        datasets: [{
+          label: 'Cas quotidiens',
+          data: ycas,
+          backgroundColor: '#dd8787',
+          order: 2
+        }, {
+          label: 'Cas quotidiens (en moyenne à sept jours)',
+          data: ymoyenne,
+          backgroundColor: '#d61d00',
+          borderColor: '#d61d00',
+          type: 'line',
+          fill: false,
+          borderWidth: 2,
+          order: 1
+        }
+        ],
+      },
+      options: {
+        scales: {
+          xAxes: [{
+            gridLines: {
+              display: false,
+            },
+            ticks: {
+              autoSkip: true,
+              maxTicksLimit: 10
+            }
+          }],
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              userCallback: function (value, index, values) {
+                value = numStr(value)
+                return value
+              }
+            },
+            type: 'linear',
+          }]
+        },
+        tooltips: {
+          mode: 'index',
+          intersect: false,
+          callbacks: {
+            label: function (tooltipItem, data) {
+              return data.datasets[tooltipItem.datasetIndex].label + " : " + numStr(tooltipItem.yLabel);
+            }
+          }
+        },
+        elements: {
+          point: {
+            radius: 0,
+          }
+        },
+        responsive: true,
+        aspectRatio: 1,
+        maintainAspectRatio: true,
+        legend: {
+          position: 'top',
+          fullWidth: false
+        },
+      }
+    });
+  }
+
+  function tripardate(a, b) {
+    return a[0].replace(/-/g, '') - b[0].replace(/-/g, '');
+  }
+
+  async function getData() {
+    const response = await fetch('https://www.data.gouv.fr/fr/datasets/r/f335f9ea-86e3-4ffa-9684-93c009d5e617');
+    const data = await response.text();
+
+    const table = data.trim('\n').split('\n').slice(1);
+    table.forEach(row => {
+      const columns = row.split(',');
+      newdata.push(columns)
+    });
+    newdata = newdata.sort(tripardate)
+    newdata.forEach(row => {
+      let date = row[0];
+      let nvxcas;
+      let nodate = date.replace(/-/g, '')
+      date = date.split('-');
+      if (nodate < 20201112) {
+        const totalcas = row[13];
+        totalizer.push(totalcas);
+      } else {
+        date = date[2] + "/" + date[1] + "/" + date[0];
+        xlabels.push(date);
+        const totalcas = parseInt(row[13]);
+        const casdujour = parseInt(row[14]);
+        totalizer.push(totalcas);
+        if (casdujour) {
+          nvxcas = casdujour;
+        } else {
+          nvxcas = totalizer[totalizer.length - 1] - totalizer[totalizer.length - 2];
+        }
+        ycas.push(nvxcas);
+        ymoyenne.push(Math.round((ycas[ycas.length - 1] + ycas[ycas.length - 2] + ycas[ycas.length - 3] + ycas[ycas.length - 4] + ycas[ycas.length - 5] + ycas[ycas.length - 6] + ycas[ycas.length - 7]) / 7));
+      }
+
+    });
+  }
+
+</script>
+<p style="font-size: 0.9em;" class="mt-24px lg:mt-40px">Source : Santé publique France / Data.gouv.fr</p>
+<p class="mt-24px lg:mt-40px">La moyenne à 7 jours permet de lisser le chiffre des cas quotidiens qui varie fortement en
+  fonction des jours de fermeture des laboratoires.</p>
+
+
+<h2 class="mt-24px lg:mt-40px">Personnes en réanimation</h2>
+<p class="mt-24px lg:mt-40px">Nombre de personnes en réanimation en raison du Covid-19 en France</p>
+<canvas id="chart2" class="chartjs mt-24px lg:mt-40px"></canvas>
+
+<script>
+
+  const xdates = [];
+  const yrea = [];
+
+  chartIt();
+
+
+  async function chartIt() {
+    await getData();
+    const ctx = document.getElementById('chart2').getContext('2d');
+    const myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: xdates,
+        datasets: [{
+          label: 'Personnes en réanimation',
+          data: yrea,
+          backgroundColor: '#d61d00',
+          borderColor: '#d61d00',
+          borderWidth: 2
+        }],
+      },
+      options: {
+        scales: {
+          xAxes: [{
+            gridLines: {
+              display: false,
+            },
+            ticks: {
+              autoSkip: true,
+              maxTicksLimit: 10
+            }
+          }],
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              userCallback: function (value, index, values) {
+                value = numStr(value)
+                return value
+              }
+            },
+            type: 'linear',
+          }]
+        },
+        tooltips: {
+          mode: 'index',
+          intersect: false,
+          callbacks: {
+            label: function (tooltipItem, data) {
+              return numStr(data['datasets'][0]['data'][tooltipItem['index']]);
+            }
+          }
+        },
+        elements: {
+          point: {
+            radius: 0,
+          },
+          line: {
+            fill: false
+          }
+        },
+        responsive: true,
+        aspectRatio: 1,
+        maintainAspectRatio: true,
+        legend: {
+          position: 'top',
+          fullWidth: false
+        },
+      }
+    });
+  }
+
+  async function getData() {
+    const response = await fetch('https://www.data.gouv.fr/fr/datasets/r/f335f9ea-86e3-4ffa-9684-93c009d5e617');
+    const data = await response.text();
+    const table = data.trim('\n').split('\n').slice(1);
+    table.forEach(row => {
+      const columns = row.split(',');
+      let date = columns[0];
+      nodate = date.replace(/-/g, '')
+      date = date.split('-');
+      if (nodate >= 20200318) {
+        date = date[2] + "/" + date[1] + "/" + date[0];
+        xdates.push(date);
+        const rea = columns[5];
+        yrea.push(rea);
+      }
+    });
+  }
+
+</script>
+<p style="font-size: 0.9em;" class="mt-24px lg:mt-40px">Source : Santé publique France / Data.gouv.fr</p>
+
+
+<h2 class="mt-24px lg:mt-40px">Décès dus au Covid-19</h2>
+<p class="mt-24px lg:mt-40px">Nombre de personnes décédées à l'hôpital au cours des sept jours précédents</p>
+
+<canvas id="chart3" class="chartjs mt-24px lg:mt-40px"></canvas>
+
+<script>
+
+  const xjours = [];
+  const yhopi = [];
+  const yehpad = [];
+  const totalhopi = [];
+  const totalehpad = [];
+  let semainier = 0;
+
+  chartIt();
+
+
+  async function chartIt() {
+    await getData();
+    const ctx = document.getElementById('chart3').getContext('2d');
+    const myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: xjours,
+        datasets: [{
+          label: 'Décès à l’hôpital',
+          data: yhopi,
+          backgroundColor: '#e07d84',
+        },
+        {
+         label: 'Décès en établissements médico-sociaux',
+         data: yehpad,
+         backgroundColor: '#FF252C',
+        },
+        ],
+      },
+      options: {
+        scales: {
+          xAxes: [{
+            stacked: true,
+            gridLines: {
+              display: false,
+            },
+            ticks: {
+              autoSkip: true,
+              maxTicksLimit: 10
+            }
+          }],
+          yAxes: [{
+            stacked: true,
+            ticks: {
+              beginAtZero: true,
+              userCallback: function (value, index, values) {
+                value = numStr(value)
+                return value
+              }
+            },
+            type: 'linear',
+          }]
+        },
+        tooltips: {
+          mode: 'label',
+          callbacks: {
+            label: function (tooltipItem, data) {
+              return data.datasets[tooltipItem.datasetIndex].label + " : " + numStr(tooltipItem.yLabel);
+            }
+          }
+        },
+        responsive: true,
+        aspectRatio: 1,
+        maintainAspectRatio: true,
+        legend: {
+          position: 'top',
+          fullWidth: false
+        },
+      }
+    });
+  }
+
+  async function getData() {
+    const response = await fetch('https://www.data.gouv.fr/fr/datasets/r/f335f9ea-86e3-4ffa-9684-93c009d5e617');
+    const data = await response.text();
+
+    const table = data.trim('\n').split('\n').slice(1);
+    table.forEach(row => {
+      const columns = row.split(',');
+      let date = columns[0];
+      nodate = date.replace(/-/g, '')
+      date = date.split('-');
+      if (nodate >= 20200310) {
+        if (semainier != 0 && semainier % 7 == 0) {
+          date = date[2] + "/" + date[1] + "/" + date[0];
+          xjours.push(date);
+          totalhopi.push(columns[8]);
+          semainehopi = totalhopi[totalhopi.length - 1] - totalhopi[totalhopi.length - 2];
+          totalehpad.push(columns[16])
+          if (totalehpad[totalehpad.length - 2] != 0) {
+          semaineehpad = totalehpad[totalehpad.length - 1] - totalehpad[totalehpad.length - 2]
+          }
+          yhopi.push(semainehopi);
+          yehpad.push(semaineehpad);
+        }
+        semainier = semainier + 1
+      }
+    });
+  }
+
+</script>
+<p style="font-size: 0.9em;" class="mt-24px lg:mt-40px">Source : Ministère de la Santé / Data.gouv.fr</p>
+<p class="mt-24px lg:mt-40px">Ce graphique est mis à jour le mardi. Les données fournies par le ministère de la Santé
+  concernant les décès en Ehpad et autres établissements médico-sociaux ne permettent d’afficher ceux-ci sur le graphique qu’à partir de la semaine du 9 au 16 février 2021. Auparavant, 23&nbsp;671&nbsp;décès avaient déjà été enregistrés dans ces établissements.</p>
+<p class="mt-24px lg:mt-40px">Voir <a href="https://www.brief.me/graphique/coronavirus/france/vaccination/"
+           title="Avancement de la vaccination en France">nos graphiques sur l’avancement de la vaccination en
+  France</a></p>
