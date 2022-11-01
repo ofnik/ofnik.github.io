@@ -11,21 +11,42 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
 </head>
 <body>
-    <div class="jumbotron text-center" style="margin-bottom:0; background-color: darkred; color: white;">
-        <h1>Calendrier de l'avent 2022</h1>
-        <p>Hoo Hoo Hoooooo ! Voici quelques indices pour ton calendrier de l'avent :p</p>
+<div class="jumbotron text-center" style="margin-bottom:0; background-color: darkred; color: white;">
+    <h1>Calendrier de l'avent 2022</h1>
+    <p>Hoo Hoo Hoooooo ! Voici quelques indices pour ton calendrier de l'avent :p</p>
+</div>
+<div class="container-fluid" style="margin-top:30px" id="app">
+    <div class="row">
+        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12" v-for="message in messages">
+            <a href="" data-toggle="modal" data-target="#m" @click="setModal(message)"> <img v-bind:src="message.image" class="img-fluid mx-auto d-block"> </a>
+        </div>
     </div>
-    <div class="container-fluid" style="margin-top:30px" id="app">
-        <div class="row">
-            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12" v-for="message in messages">
-                <a href="" data-toggle="modal" data-target="#m" @click="setModal(message)"> 
-                    <img v-bind:src="message.image" class="img-fluid mx-auto d-block"> 
-                </a>
+
+    <div class="modal" id="m">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <h4 class="modal-title">Indice du jour <3</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <div v-html="modal"></div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+                </div>
+
             </div>
         </div>
     </div>
-    <script>
-            let app = new Vue({
+
+</div>
+
+<script>
+    let app = new Vue({
         el: '#app',
         data: {
             modal : '',
@@ -33,7 +54,7 @@
                 {
                     'number' : 1,
                     'image' : 'img/1.png',
-                    'content' : 'Message'
+                    'content' : 'La <a target="_blank" href="https://www.youtube.com/watch?v=aImKhYLZeWw">vidéo du jour</a>'
                 },
                 {
                     'number' : 2,
@@ -155,18 +176,20 @@
         methods: {
             setModal(message){
                 let today = new Date();
-                let calDate = new Date('2022-10-' + message.number);
-                calDate.setDate(calDate.getDate()-1);
+                let calDate = new Date('2022-11-' + message.number);
+                calDate.setDate(calDate.getDate());
                 if(calDate >= today){
                     this.modal = 'Hep Hep Hep, on ne triche pas !'
+                    console.log("today dit " + today + " et calDate dit " + calDate);
                 }
                 else{
                     this.modal = message.content;
+                    console.log("today dit " + today + " et calDate dit " + calDate);
                 }
             }
         }
     })
-    </script>
-    
+</script>
 </body>
 </html>
+
