@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <title>Calendrier de l'avent 2019</title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<link href="https://fonts.googleapis.com/css?family=Grenze&display=swap" rel="stylesheet">
+
+<style type="text/css">
+
+   body{
+      background: #f8f8f8;
+      color: #333;
+   }
+
+   /*** --- Calendrier --- ***/
+   #wrapper-calendar{
+      background: #fff url('https://www.imagedenoel.net/image/image-de-noel-3.jpg') no-repeat top center;
+      border: 1px solid #666;
+   }
+
+   #wrapper-calendar .case{
+      background: rgba(255, 255, 255, .6);
+      border: 1px solid #666;
+      color: #333;
+   }
+
+   /*** Case "date passée" et "date du jour" ***/
+   #wrapper-calendar .case.disabled,
+   #wrapper-calendar .case.active{
+      background: #fff url('https://zupimages.net/up/18/48/t3ao.jpg') no-repeat center;
+      color: #fff;
+   }
+
+   /*** Popin ***/
+   .popin{
+      background: #fff url('https://www.imagedenoel.net/image/image-de-noel-3.jpg') no-repeat top center;
+      border: 1px solid #666;
+        box-shadow: 1px 1px 9px #000;
+        color: #333;
+   }
+
+   .popin .modal-header,
+   .popin .modal-body,
+   .popin .modal-footer{
+      background: rgba(255, 255, 255, 0.5);
+   }
+
+   /* ==========================
+   NE RIEN CHANGER SOUS CETTE LIGNE
+    ========================== */
+   body{
+      font: normal 14px/1 'Grenze', serif;
+      margin: 10px auto;
+      width: 600px;
+   }
+
+   .d-flex{
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+   }
+
+   .choose-month,
+   .choose-day{
+      display: inline-block;
+      margin: 2px 4px;
+      vertical-align: middle;   
+   }
+
+   h1{
+      font-weight: bold;
+   }
+
+   h1,
+   h1 + p {
+      text-align: center;
+   }
+
+   /*** --- Calendrier --- ***/
+   #wrapper-calendar{
+      background-size: cover;
+      box-sizing: border-box;
+      padding: 10px;
+   }
+
+   #wrapper-calendar .case{
+      box-sizing: border-box;
+      font-size: 60px;
+      line-height: 1;
+      height: 80px;
+      margin: 2px;
+      text-align: center;
+      width: 80px;   
+   }
+
+   #wrapper-calendar .case.last{
+      flex-grow: 0;
+      flex-shrink: 0;
+   }
+
+   /*** Case "date passée" et "date du jour" ***/
+   #wrapper-calendar .case.disabled,
+   #wrapper-calendar .case.active{
+      background-size: cover;
+   }
+
+   /* Case "date passée" */
+   #wrapper-calendar .case.disabled{
+      opacity: .4;
+   }
+
+   /* Case "date du jour" */
+   #wrapper-calendar .case.active{
+      cursor: pointer;
+   }
+
+   /*** Popin ***/
+   .popin{
+      background-size: cover;
+      border-radius: 5px;
+      display: block;
+      font: normal 14px/1 'Grenze', serif;
+      height: 200px;
+      margin: auto;
+      width: 500px;
+   }
+
+   .popin .modal-header h3,
+   .popin .modal-body p{
+      font-weight: bold;
+   }
+
+   .popin .modal-body p{
+      font-size: 14px;
+      line-height: 1;
+   }
+
+   .popin .modal-header,
+   .popin .modal-body{
+      text-align: center;
+   }
+
+   .popin .modal-header,
+   .popin .modal-footer{
+      border: 0;
+   }
+
+   /*** Copyright ***/
+   .ls-ccp{
+       color: #999;
+       display: block;
+       font-size: 11px;
+       font-style: italic;
+       margin: auto;
+       text-shadow: #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px;
+       text-align: center;
+       width: 98%;
+     }
+
+     .ls-ccp a{
+       color: #000;
+       text-decoration: none;
+     }
+
+     .ls-ccp a:hover{
+       color: #999;
+       text-decoration: underline;
+     }
+
+</style>
+
+</head>
+
+<base target="_parent">
+
+<body>
+
+<div id="wrapper" ng-app="angularApp" ng-controller="appController as app" ng-cloak>
+   <!--
+      Bloc de test,
+      ajouter ?test=true
+      à la fin de l'url de la page pour l'afficher
+   -->
+   <div data-ng-if="isTest">
+      <p>Choisir un mois à tester: </p>
+      <div class="d-flex">
+         <span data-ng-repeat="mois in listeMois" class="choose-month">
+            <input type="radio" data-ng-model="month" name="month" value="{{$index}}" data-ng-change="changeMonth($index)"> {{mois}}
+         </span>
+      </div>
+
+      <div data-ng-show="monthNumber == 11">
+         <p>Choisir un jour à tester : </p>
+         <div class="d-flex">
+            <span data-ng-repeat="i in getNumber(31) track by $index" class="choose-day">
+               <input type="radio" data-ng-model="day" name="day" value="{{$index}}" data-ng-change="changeDay($index+1)"> {{$index + 1}}
+            </span>
+         </div>
+      </div>      
+   </div>
+   
+
+   <!-- Date du jour -->
+   <h1>Nous sommes le {{today}} {{monthWord}} !</h1>
+
+   <!-- [Phrase intro] Si nous sommes entre le 1 et le 25 décembre -->
+   <p data-ng-if="today <= 25 && monthNumber == 11">Viens vite ouvrir la case du jour.</p>
+
+   <!-- [Phrase intro] Si nous sommes entre le 26 et le 31 décembre -->
+   <p data-ng-if="today > 25 && monthNumber == 11">Toutes les cases du calendrier ont été ouvertes.</p>
+
+   <!-- [Phrase intro] Si nous sommes entre janvier et septembre -->
+   <p data-ng-if="monthNumber <= 8">Le calendrier de l'Avent est terminé.</p>
+
+   <!-- [Phrase intro] Si nous sommes en octobre ou novembre -->
+   <p data-ng-if="monthNumber < 11 && monthNumber > 8">Le calendrier de l'Avent n'est pas encore commencé.</p>
+
+   <!-- [Calendrier] Si nous sommes en décembre -->
+   <div id="wrapper-calendar" class="d-flex" data-ng-if="monthNumber == 11">
+      <div data-ng-repeat="cadeau in listeCadeau" class="case" data-ng-class="{'last': $last, 'disabled': $index + 1 < today, 'active' : $index + 1 == today}" data-ng-click="openPopin($index)">
+         {{$index + 1}}
+      </div>
+   </div>   
+
+   <!-- [Calendrier] Si nous sommes entre janvier et septembre -->
+   <div id="wrapper-calendar" class="d-flex" data-ng-if="monthNumber <= 8"">
+      <div data-ng-repeat="cadeau in listeCadeau" class="case disabled" data-ng-class="{'last': $last}" data-ng-click="openPopin($index)">
+         {{$index + 1}}
+      </div>
+   </div>   
+
+   <!-- [Calendrier] Si nous sommes en octobre ou novembre -->
+   <div id="wrapper-calendar" class="d-flex" data-ng-if="monthNumber < 11 && monthNumber > 8">
+      <div data-ng-repeat="cadeau in listeCadeau" class="case" data-ng-class="{'last': $last}" data-ng-click="openPopin($index)">
+         {{$index + 1}}
+      </div>
+   </div>   
+   
+   <!-- Copyright à ne pas supprimer ou modifier -->
+   <span class="ls-ccp">Calendrier généré par ©<a href="http://tambouille-raleuses.forumactif.com/u1" target="_blank">Miettes</a></span>
+
+   <!-- La popin -->
+   <script type="text/ng-template" id="popin-cadeau">
+       <div class="modal-header">
+            <h3>Voici le cadeau du jour</h3>
+        </div>
+        <div class="modal-body">
+            <p>{{ item.cadeau }}</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="reclamer()">Réclamer mon cadeau</button>
+            <button class="btn btn-warning" ng-click="close()">Fermer</button>
+        </div>
+   </script>
+</div>
+
+<!-- Bibliothèque Angular -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js" language="Javascript" type="text/javascript"></script>
+
+<!-- Module angular boostrap -->
+<script src="http://pvereecken.fr/tambouille/ls/ui-bootstrap-tpls-0.6.0.js"></script>
+   
+   
+<script language="Javascript" type="text/javascript">
+   var app = angular.module("angularApp", ['ui.bootstrap']);
+   app.controller("appController", function($scope, $modal, $timeout){
+
+      // On définit les cadeaux de chaque jour
+      // Attention ! Si tu as des guillemets (") il faut les échapper
+      // par exemple \"Coucou\"
+      $scope.listeCadeau = [
+         // 1er
+         "Cadeau du 1er décembre",
+         // 2
+         "Cadeau du 2 décembre",
+         // 3
+         "Cadeau du 3 décembre",
+         // 4
+         "Cadeau du 4 décembre",
+         // 5
+         "Cadeau du 5 décembre",
+         // 6
+         "Cadeau du 6 décembre",
+         // 7
+         "Cadeau du 7 décembre",
+         // 8
+         "Cadeau du 8 décembre",
+         // 9
+         "Cadeau du 9 décembre",
+         // 10
+         "Cadeau du 10 décembre",
+         // 11
+         "Cadeau du 11 décembre",
+         // 12
+         "Cadeau du 12 décembre",
+         // 13
+         "Cadeau du 13 décembre",
+         // 14
+         "Cadeau du 14 décembre",
+         // 15
+         "Cadeau du 15 décembre",
+         // 16
+         "Cadeau du 16 décembre",
+         // 17
+         "Cadeau du 17 décembre",
+         // 18
+         "Cadeau du 18 décembre",
+         // 19
+         "Cadeau du 19 décembre",
+         // 20
+         "Cadeau du 20 décembre",
+         // 21
+         "Cadeau du 21 décembre",
+         // 22
+         "Cadeau du 22 décembre",
+         // 23
+         "Cadeau du 23 décembre",
+         // 24
+         "Cadeau du 24 décembre",
+         // 25
+         "Cadeau du 25 décembre"
+      ];
+
+      // sujet de réception de demande de cadeau
+      $scope.topic = "http://miettes.lebonforum.com/post?t=107&mode=reply";
+
+      /* ==========================
+         NE RIEN CHANGER SOUS CETTE LIGNE
+       ========================== */
+
+      /**
+        * Fonction de récupération des paramètres GET de la page
+        * @return Array Tableau associatif contenant les paramètres GET
+        */
+        function extractUrlParams(){ 
+            var t = location.search.substring(1).split('&');
+            var f = [];
+            var test ;
+            for (var i=0; i<t.length; i++){
+                var x = t[ i ].split('=');
+                f[x[0]]=x[1];
+            }
+           
+            if(f){             
+                test = f.test ;             
+                return test ;
+            }
+        };
+
+        // On regarde si l'url contient ?test=true
+        $scope.isTest = extractUrlParams();
+
+        // On fait un tableau qui contient chaque mois en lettre
+      $scope.listeMois = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet','août', 'septembre', 'octobre', 'novembre', 'décembre'];
+
+      // On récupére la date du jour
+      var dateNow = new Date();   
+        $scope.today = dateNow.getDate();
+        $scope.monthNumber = dateNow.getMonth();
+        $scope.monthWord = $scope.listeMois[$scope.monthNumber];
+
+        // Si on est en page de test,
+        // on change le mois en fonction de ce qui est coché
+        $scope.changeMonth = function(i){
+           $timeout( function(){
+              $scope.monthNumber = i;
+              $scope.monthWord = $scope.listeMois[i];
+           },0);   
+        }
+
+        // Si on est en page de test,
+        // si on a choisi le mois de décembre,
+        // on change le jour en fonction de ce qui est coché
+        $scope.changeDay = function(i){
+           $timeout( function(){
+              $scope.today = i;
+           },0);   
+        }
+
+        // Ouverture de la popin
+      $scope.openPopin = function(i){
+
+         if(i + 1 == $scope.today && $scope.monthNumber == 11){
+            $scope.popin = {
+               date: i + 1,
+               cadeau: $scope.listeCadeau[i]
+            };
+
+            $scope.popinCadeau = $modal.open({
+                   templateUrl: 'popin-cadeau',
+                   controller: 'modalController',
+                   scope: $scope,
+                   windowClass: 'popin',
+                   resolve: {
+                       item: function () {
+                      return $scope.popin;
+                    }
+                   }
+               });
+         }
+
+      };
+
+      // Afficher liens vides
+       $scope.getNumber = function(num) {
+         return new Array(num); 
+       }
+   });
+
+   // Le controller de gestion de la popin
+   app.controller("modalController", function($scope, item){
+      // On récupère les infos du cadeau du jour
+      // pour les afficher dans la popin
+      $scope.item = item;
+
+      $scope.reclamer = function(){
+         // Au clic sur "réclamer",
+         // on va versle topic
+         window.parent.document.location = $scope.topic;
+      }
+
+      $scope.close = function(){
+         // Au clic sur "fermer",
+         // on ferme la popin
+         $scope.popinCadeau.close();
+      }
+   });
+
+
+</script>
+
+</body>
+</html>
