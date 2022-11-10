@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Calendrier de l'Avent 2022</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+<div class="jumbotron text-center" style="margin-bottom:0; background-color: #000033; color: white;">
+    <h1>Calendrier de l'Avent 2022</h1>
+    <p>Une case par jour et on ne triche pas ! D'ailleurs on ne peut pas ;-)</p>
+</div>
+<div class="galerie">
+
+    <div class="item"><img id="image12" src="img/12.png"></div>
+    <div class="item"><img id="image08" src="img/8.png"></div>
+    <div class="item"><img id="image14" src="img/14.png"></div>
+    <div class="item"><img id="image17" src="img/17.png"></div>
+
+    <div class="item"><img id="image02" src="img/2.png"></div>
+    <div class="item"><img id="image13" src="img/13.png"></div>
+    <div class="item"><img id="image03" src="img/3.png"></div>
+    <div class="item"><img id="image23" src="img/23.png"></div>
+    
+    <div class="item"><img id="image01" src="img/1.png"></div>
+    <div class="item"><img id="image09" src="img/9.png"></div>    
+    <div class="item"><img id="image15" src="img/15.png"></div>
+    <div class="item"><img id="image06" src="img/6.png"></div>    
+    
+    <div class="item"><img id="image18" src="img/18.png"></div>
+    <div class="item"><img id="image07" src="img/7.png"></div>
+    <div class="item"><img id="image20" src="img/20.png"></div>
+    <div class="item"><img id="image11" src="img/11.png"></div>
+
+    <div class="item"><img id="image04" src="img/4.png"></div>
+    <div class="item"><img id="image10" src="img/10.png"></div>
+    <div class="item"><img id="image21" src="img/21.png"></div>
+    <div class="item"><img id="image16" src="img/16.png"></div>
+
+    <div class="item"><img id="image05" src="img/5.png"></div>
+    <div class="item"><img id="image22" src="img/22.png"></div>    
+    <div class="item"><img id="image19" src="img/19.png"></div>
+    <div class="item"><img id="image24" src="img/24.png"></div>
+
+</div>
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3 id="myModalTitle">Titre</h3>
+        <div id="myModalText">La réponse est 42.</div>
+    </div>
+</div>
+
+
+<script>
+
+    // Quelque soit l'image cliquée, on ouvre un modal     
+    document.querySelectorAll('img').forEach(function(img) { 
+        img.addEventListener('click', function() {
+            modal.style.display = "block";
+	    }, false) 
+    });
+
+    image01.addEventListener('click', ()=>{
+        let today = new Date();
+        let calDate = new Date('2022-11-01');
+        if (calDate <= today) {
+            myModalTitle.innerText = '1er décembre';
+            myModalText.innerHTML = 'Aujourd’hui, un <a target=_blank" href="https://www.youtube.com/watch?v=lIyLRnB-eCY">joli court-métrage d’animation</a>';
+        } else {
+            myModalTitle.innerText = 'Saperlipopette !';
+            myModalText.innerText = 'C\'est absolument interdit !';
+        }
+    })
+
+    image02.addEventListener('click', ()=>{
+        let today = new Date();
+        let calDate = new Date('2022-11-02');
+        if (calDate <= today) {
+            myModalTitle.innerText = '2 décembre';
+            myModalText.innerHTML = 'message case 2';
+        } else {
+            myModalTitle.innerText = 'Saperlipopette !';
+            myModalText.innerText = 'C\'est absolument interdit !';
+        }
+    })
+
+    image03.addEventListener('click', ()=>{
+        let today = new Date();
+        let calDate = new Date('2022-11-03');
+        if (calDate <= today) {
+            myModalTitle.innerText = '3 décembre';
+            myModalText.innerHTML = 'message case';
+        } else {
+            myModalTitle.innerText = 'Saperlipopette !';
+            myModalText.innerText = 'C\'est absolument interdit !';
+        }
+    })
+
+    image04.addEventListener('click', ()=>{
+        let today = new Date();
+        let calDate = new Date('2022-11-04');
+        if (calDate <= today) {
+            myModalTitle.innerText = '4 décembre';
+            myModalText.innerHTML = 'message case';
+        } else {
+            myModalTitle.innerText = 'Saperlipopette !';
+            myModalText.innerText = 'C\'est absolument interdit !';
+        }
+    })
+
+    image05.addEventListener('click', ()=>{
+        let today = new Date();
+        let calDate = new Date('2022-11-05');
+        if (calDate <= today) {
+            myModalTitle.innerText = '5 décembre';
+            myModalText.innerHTML = 'message case';
+        } else {
+            myModalTitle.innerText = 'Saperlipopette !';
+            myModalText.innerText = 'C\'est absolument interdit !';
+        }
+    })
+
+    image06.addEventListener('click', ()=>{
+        let today = new Date();
+        let calDate = new Date('2022-11-06');
+        if (calDate <= today) {
+            myModalTitle.innerText = '6 décembre';
+            myModalText.innerHTML = 'message case';
+        } else {
+            myModalTitle.innerText = 'Saperlipopette !';
+            myModalText.innerText = 'C\'est absolument interdit !';
+        }
+    })
+
+    image07.addEventListener('click', ()=>{
+        let today = new Date();
+        let calDate = new Date('2022-11-07');
+        if (calDate <= today) {
+            myModalTitle.innerText = '7 décembre';
+            myModalText.innerHTML = 'message case';
+        } else {
+            myModalTitle.innerText = 'Saperlipopette !';
+            myModalText.innerText = 'C\'est absolument interdit !';
+        }
+    })
+
+    image08.addEventListener('click', ()=>{
+        let today = new Date();
+        let calDate = new Date('2022-11-08');
+        if (calDate <= today) {
+            myModalTitle.innerText = '8 décembre';
+            myModalText.innerHTML = 'message case';
+        } else {
+            myModalTitle.innerText = 'Saperlipopette !';
+            myModalText.innerText = 'C\'est absolument interdit !';
+        }
+    })
+
+    image09.addEventListener('click', ()=>{
+        let today = new Date();
+        let calDate = new Date('2022-11-09');
+        if (calDate <= today) {
+            myModalTitle.innerText = '9 décembre';
+            myModalText.innerHTML = 'message case';
+        } else {
+            myModalTitle.innerText = 'Saperlipopette !';
+            myModalText.innerText = 'C\'est absolument interdit !';
+        }
+    })
+
+    image10.addEventListener('click', ()=>{
+        let today = new Date();
+        let calDate = new Date('2022-11-10');
+        if (calDate <= today) {
+            myModalTitle.innerText = '10 décembre';
+            myModalText.innerHTML = 'message case';
+        } else {
+            myModalTitle.innerText = 'Saperlipopette !';
+            myModalText.innerText = 'C\'est absolument interdit !';
+        }
+    })
+
+    image11.addEventListener('click', ()=>{
+        let today = new Date();
+        let calDate = new Date('2022-11-11');
+        if (calDate <= today) {
+            myModalTitle.innerText = '11 décembre';
+            myModalText.innerText = 'message case';
+        } else {
+            myModalTitle.innerText = 'Saperlipopette !';
+            myModalText.innerText = 'C\'est absolument interdit !';
+        }
+    })
+
+    image12.addEventListener('click', ()=>{
+        let today = new Date();
+        let calDate = new Date('2022-11-12');
+        if (calDate <= today) {
+            myModalTitle.innerText = '12 décembre';
+            myModalText.innerText = 'message case';
+        } else {
+            myModalTitle.innerText = 'Saperlipopette !';
+            myModalText.innerText = 'C\'est absolument interdit !';
+        }
+    })
+
+    image13.addEventListener('click', ()=>{
+        let today = new Date();
+        let calDate = new Date('2022-11-13');
+        if (calDate <= today) {
+            myModalTitle.innerText = '13 décembre';
+            myModalText.innerText = 'message case';
+        } else {
+            myModalTitle.innerText = 'Saperlipopette !';
+            myModalText.innerText = 'C\'est absolument interdit !';
+        }
+    })
+
+    image14.addEventListener('click', ()=>{
+        let today = new Date();
+        let calDate = new Date('2022-11-14');
+        if (calDate <= today) {
+            myModalTitle.innerText = '14 décembre';
+            myModalText.innerText = 'message case';
+        } else {
+            myModalTitle.innerText = 'Saperlipopette !';
+            myModalText.innerText = 'C\'est absolument interdit !';
+        }
+    })
+
+    image15.addEventListener('click', ()=>{
+        let today = new Date();
+        let calDate = new Date('2022-11-15');
+        if (calDate <= today) {
+            myModalTitle.innerText = '15 décembre';
+            myModalText.innerText = 'message case';
+        } else {
+            myModalTitle.innerText = 'Saperlipopette !';
+            myModalText.innerText = 'C\'est absolument interdit !';
+        }
+    })
+
+    image16.addEventListener('click', ()=>{
+        let today = new Date();
+        let calDate = new Date('2022-11-16');
+        if (calDate <= today) {
+            myModalTitle.innerText = '16 décembre';
+            myModalText.innerText = 'message case';
+        } else {
+            myModalTitle.innerText = 'Saperlipopette !';
+            myModalText.innerText = 'C\'est absolument interdit !';
+        }
+    })
+
+    image17.addEventListener('click', ()=>{
+        let today = new Date();
+        let calDate = new Date('2022-11-17');
+        if (calDate <= today) {
+            myModalTitle.innerText = '17 décembre';
+            myModalText.innerText = 'message case';
+        } else {
+            myModalTitle.innerText = 'Saperlipopette !';
+            myModalText.innerText = 'C\'est absolument interdit !';
+        }
+    })
+
+    image18.addEventListener('click', ()=>{
+        let today = new Date();
+        let calDate = new Date('2022-11-18');
+        if (calDate <= today) {
+            myModalTitle.innerText = '18 décembre';
+            myModalText.innerText = 'message case';
+        } else {
+            myModalTitle.innerText = 'Saperlipopette !';
+            myModalText.innerText = 'C\'est absolument interdit !';
+        }
+    })
+
+    image19.addEventListener('click', ()=>{
+        let today = new Date();
+        let calDate = new Date('2022-11-19');
+        if (calDate <= today) {
+            myModalTitle.innerText = '19 décembre';
+            myModalText.innerText = 'message case';
+        } else {
+            myModalTitle.innerText = 'Saperlipopette !';
+            myModalText.innerText = 'C\'est absolument interdit !';
+        }
+    })
+
+    image20.addEventListener('click', ()=>{
+        let today = new Date();
+        let calDate = new Date('2022-11-20');
+        if (calDate <= today) {
+            myModalTitle.innerText = '20 décembre';
+            myModalText.innerText = 'message case';
+        } else {
+            myModalTitle.innerText = 'Saperlipopette !';
+            myModalText.innerText = 'C\'est absolument interdit !';
+        }
+    })
+
+    image21.addEventListener('click', ()=>{
+        let today = new Date();
+        let calDate = new Date('2022-11-21');
+        if (calDate <= today) {
+            myModalTitle.innerText = '21 décembre';
+            myModalText.innerText = 'message case';
+        } else {
+            myModalTitle.innerText = 'Saperlipopette !';
+            myModalText.innerText = 'C\'est absolument interdit !';
+        }
+    })
+
+    image22.addEventListener('click', ()=>{
+        let today = new Date();
+        let calDate = new Date('2022-11-22');
+        if (calDate <= today) {
+            myModalTitle.innerText = '22 décembre';
+            myModalText.innerText = 'message case';
+        } else {
+            myModalTitle.innerText = 'Saperlipopette !';
+            myModalText.innerText = 'C\'est absolument interdit !';
+        }
+    })
+
+    image23.addEventListener('click', ()=>{
+        let today = new Date();
+        let calDate = new Date('2022-11-23');
+        if (calDate <= today) {
+            myModalTitle.innerText = '23 décembre';
+            myModalText.innerText = 'message case';
+        } else {
+            myModalTitle.innerText = 'Saperlipopette !';
+            myModalText.innerText = 'C\'est absolument interdit !';
+        }
+    })
+
+    image24.addEventListener('click', ()=>{
+        let today = new Date();
+        let calDate = new Date('2022-11-24');
+        if (calDate <= today) {
+            myModalTitle.innerText = '24 décembre';
+            myModalText.innerText = 'message case';
+        } else {
+            myModalTitle.innerText = 'Saperlipopette !';
+            myModalText.innerText = 'C\'est absolument interdit !';
+        }
+    })
+
+    // Get the modal
+    let modal = document.getElementById("myModal");
+    
+    // Get the <span> element that closes the modal
+    let span = document.getElementsByClassName("close")[0];
+    
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+</script>
+</body>
+</html>
+
