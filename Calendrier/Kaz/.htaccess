@@ -1,4 +1,4 @@
 AuthType Basic
 AuthName "Accès protégé"
-AuthUserFile ofnik.github.io/Calendrier/cal01/.htpasswd
+AuthUserFile https://ofnik.github.io/Calendrier/cal01/.htpasswd
 require valid-user
