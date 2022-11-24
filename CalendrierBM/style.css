@@ -8,6 +8,10 @@ body {
     height: 100vh;
 }
 
+h2 {
+    font-size: 14px;
+}
+
 .galerie {
     display: flex;
     justify-content: center;
