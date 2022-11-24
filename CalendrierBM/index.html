@@ -73,8 +73,10 @@
         let today = new Date();
         let calDate = new Date('2022-11-01');
         if (calDate <= today) {
-            myModalTitle.innerText = '1er décembre';
-            myModalText.innerHTML = 'Aujourd’hui, une <a target=_blank" href="https://app.brief.me/article/2022-10-06-14503-une-maison-gribouillee-du-sol-au-plafond?search=true">vidéo qu’on a beaucoup aimée.</a>';
+            myModalTitle.innerHTML = '1<sup>er</sup> décembre';
+            myModalText.innerHTML = 'Je vous invite à regarder <a href="https://www.youtube.com/watch?v=0gA7A4p2KUw" target="_blank">la rediffusion du concert de Vulfpeck</a> à la Villette en septembre (mention spéciale pour le solo de Nate Smith à la batterie à 49'05)<br />
+– Louis
+';
         } else {
             myModalTitle.innerText = 'Saperlipopette !';
             myModalText.innerText = 'C\'est absolument interdit !';
