@@ -8,6 +8,10 @@ body {
     height: 100vh;
 }
 
+.signature {
+  text-align: end;
+}
+
 .galerie {
     display: flex;
     justify-content: center;
