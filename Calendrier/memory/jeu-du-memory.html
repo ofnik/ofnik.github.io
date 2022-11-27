@@ -56,9 +56,9 @@
 					<div class="case" id="case14"></div>
 					<div class="case" id="case15"></div>
 					</div>
-					Tu as trois minutes<br /><br /><br />
+					Tu as une minute<br /><br /><br />
 					<span style="font-size:18px;font-weight:normal;">Ton score :<br />
-					<div id="scrore" style="font-size:30px;"><strong>10</strong>/10</div>
+					<div id="scrore" style="font-size:30px;"><strong>20</strong>/20</div>
 					<br /><br />
 					<div id="temps" style="font-size:20px;"></div><br />
 					<input type="button" class="btn" value="Nouvelle partie" onClick="window.location.reload()"/>
@@ -151,8 +151,8 @@
 	depart=true;
 	nb_clics=0;
 	nb_erreurs ++;
-	if(nb_erreurs<11) le_score = 10 - nb_erreurs;
-	document.getElementById("scrore").innerHTML = "<strong>" + le_score + "</strong>/10";
+	if(nb_erreurs<21) le_score = 20 - nb_erreurs;
+	document.getElementById("scrore").innerHTML = "<strong>" + le_score + "</strong>/20";
 	},1000);
 	}
 	else
@@ -163,12 +163,12 @@
 	if(img_ok==16)
 	{
 	var dif_temps = Math.floor((new Date().getTime() - temps_debut)/1000);
-	document.getElementById("scrore").innerHTML ="<strong>" + le_score + "</strong>/10";
+	document.getElementById("scrore").innerHTML ="<strong>" + le_score + "</strong>/20";
 	document.getElementById("temps").innerHTML = "Tu as mis <strong>" + dif_temps + "</strong> secondes";
 	}
-	if(dif_temps > 180)
+	if(dif_temps > 60)
 	{
-	document.getElementById("temps").innerHTML = "Le temps imparti est dépassé, tu as perdu !";
+	document.getElementById("temps").innerHTML = "Bon, tu as mis un peu plus d’une minute, mais c’est pas grave !";
 	depart=false;
 	}
 	}
