@@ -34,3 +34,7 @@ body {
 .message > a {
   color: #0099BE !important;
 }
+
+.article {
+    float: center;
+}
