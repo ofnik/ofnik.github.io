@@ -36,9 +36,46 @@ body {
 }
 
 .article {
-    color: red;
+    *, ::before, ::after {
+    box-sizing:border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+}
+
+.galerie {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 1300px;
+    margin: 50px auto 0;
+}
+
+.image-day {
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+}
+
+.item img {
     width: 100%;
-    float: center;
-    margin-right: 50px;
-    margin-bottom: 20px;
+    height: auto;
+}
+
+.modal-dialog {
+  max-width: 300px;
+}
+
+.message > a {
+  color: #0099BE !important;
+}
+
+.article {
+  width: 100%;
+  padding: 100% 0 0 0 !important;
+  background: #e4087e;
+}
 }
