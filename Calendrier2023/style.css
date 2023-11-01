@@ -37,6 +37,7 @@ body {
 
 .article {
     color: red;
+    width: 100%;
     float: center;
     margin-right: 50px;
     margin-bottom: 20px;
