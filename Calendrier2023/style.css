@@ -35,13 +35,6 @@ body {
   color: #0099BE !important;
 }
 
-.article {
-    *, ::before, ::after {
-    box-sizing:border-box;
-    margin: 0;
-    padding: 0;
-}
-
 body {
     height: 100vh;
 }
@@ -72,10 +65,3 @@ body {
 .message > a {
   color: #0099BE !important;
 }
-
-.article {
-  width: 100%;
-  padding: 100% 0 0 0 !important;
-  background-color: #e4087e;
-}
-
